@@ -3,12 +3,9 @@ from collections import defaultdict
 import sys
 import random
 import math
-#from math import *
 import numpy as np
 
-#from intcode import *
 from input1 import *
-
 
 def day1a(s):
     total = 0
@@ -32,15 +29,15 @@ digits = {'zero':0, 'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five':5, 'six':6
           '0':0, '1':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9}
 
 def digitStart(s):
-    for sDigit in digits.keys():
+    for (sDigit,n) in digits.items():
         if s.startswith(sDigit):
-            return digits[sDigit]
+            return n
     return None
 
 def digitEnd(s):
-    for sDigit in digits.keys():
+    for (sDigit,n) in digits.items():
         if s.endswith(sDigit):
-            return digits[sDigit]
+            return n
     return None
 
 def day1b(s):
@@ -50,9 +47,7 @@ def day1b(s):
             line = line[1:]
         while digitEnd(line) is None:
             line = line[:-1]
-        n = 10 * digitStart(line) + digitEnd(line)
-        #print(n)
-        total += n
+        total += 10 * digitStart(line) + digitEnd(line)
     print(total)
 
 test1b="""two1nine
