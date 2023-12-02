@@ -58,4 +58,5 @@ xtwone3four
 zoneight234
 7pqrstsixteen"""
 
-day1b(input1)
+# day1b(input1)
+
