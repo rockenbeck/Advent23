@@ -50,4 +50,7 @@ def day2b(s):
         total += power
     print(total)
 
-day2b(input2)
+#day2b(input2)
+
+
+
