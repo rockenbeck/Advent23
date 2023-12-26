@@ -216,6 +216,56 @@ def longestNonRecursive(mp,xStart,yStart,xEnd,yEnd,path):
 
     return lLongest,path
 
+def longestNonRecursive2(mp,xStart,yStart,xEnd,yEnd):
+    # OK for short, stack overflow for longer
+    # Is this cleaner? Kinda verbose. Trying to find a nice pattern for doing a manual stack
+
+    path = set()
+    stack = []
+    x,y = xStart,yStart
+    state = "enter"
+
+    while True:
+        if state == "enter":
+            if x == xEnd and y == yEnd:
+                lLongest = len(path)
+                state = "return"
+            else:
+                path.add((x,y))
+                lLongest = -1
+                d = 0
+                state = "loop1"
+                # fall through
+        if state == "loop1":
+            dx,dy = [(0,1), (0,-1), (1,0), (-1,0)][d]
+            xT = x + dx
+            yT = y + dy
+            if yT >= 0 and mp[(xT,yT)] != '#' and (xT,yT) not in path:
+                stack.append((x,y,d,lLongest))
+                x,y = xT,yT
+                state = "enter"
+                continue
+            state = "loop2"
+        if state == "loop2":
+            d += 1
+            if d < 4:
+                state = "loop1"
+                continue
+            path.remove((x,y))
+            state = "return"
+        if state == "return":
+            if len(stack) == 0:
+                break
+
+            l = lLongest
+            x,y,d,lLongest = stack.pop(-1)
+            if l > lLongest:
+                lLongest = l
+            state = "loop2"
+                
+    return lLongest
+
+
 
 class Node:
     def __init__(self, x, y):
@@ -336,14 +386,15 @@ def day23b(sIn):
     # l = longestRecursive(mp,xStart,yStart,xEnd,yEnd,set())
     # l,path = longestNonRecursive(mp,xStart,yStart,xEnd,yEnd,set())
     # printPath(mp,path)
-    l = longestGraph(mp,xStart,yStart,xEnd,yEnd)
+    l = longestNonRecursive2(mp,xStart,yStart,xEnd,yEnd)
+    # l = longestGraph(mp,xStart,yStart,xEnd,yEnd)
 
     print(f"longest = {l}")
 
 
             
-# day23b(test23)
-day23b(input23)
+day23b(test23)
+# day23b(input23)
 
 
 test23c="""#.#####
